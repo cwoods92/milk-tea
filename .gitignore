@@ -1,0 +1,11 @@
+node_modules
+/src/shims-vue.d.ts
+/src/index.css
+/custom.d.ts
+.idea/workspace.xml
+dist/
+yarn-error.log
+!/.gitlab-ci.yml
+src/modules/
+/src/logo.svg
+/client.js

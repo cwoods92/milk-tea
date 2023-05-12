@@ -1,0 +1,31 @@
+image: docker:18
+
+services:
+  - docker:dind
+
+variables:
+  DOCKER_DRIVER: overlay2
+
+stages:
+  - build
+  - deploy
+
+build:
+  image: node:8.9.0
+  stage: build
+  script:
+    - cd win-app
+    - npm install
+
+deploy:
+  image: rjain15/node-alpine-gcloud-yarn:latest
+  stage: deploy
+  before_script:
+    - gcloud auth activate-service-account --key-file=auth.json
+    - gcloud config set project driven-manifest-244106
+  script:
+    - npm install
+    - CI=false yarn build
+    - cp app.yaml dist/
+    - cd dist/
+    - gcloud app deploy app.yaml
